@@ -312,6 +312,23 @@ export const useEditorStore = create<EditorStore>()(
         return activePage.widgets.find((w) => w.id === state.selectedWidgetId);
       },
 
+      loadProject: (content) => {
+        // Validação básica
+        if (!content || !content.pages) return;
+
+        set({
+          pages: content.pages,
+          config: content.config || CANVAS_CONFIG,
+          activePageId: content.pages[0]?.id || null,
+          selectedWidgetId: null,
+          // Reseta o histórico ao carregar novo projeto
+        });
+        
+        // Limpa o histórico do zundo (opcional, mas recomendado)
+        const temporalState = (useEditorStore as any).temporal.getState();
+        if (temporalState?.clear) temporalState.clear();
+      },
+
       undo: () => {
         const temporalState = (useEditorStore as any).temporal.getState();
         if (temporalState?.undo) temporalState.undo();

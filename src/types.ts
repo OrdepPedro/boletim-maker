@@ -90,6 +90,7 @@ export interface EditorStore extends EditorState, EditorActions {
   redo: () => void;
   canUndo: boolean;
   canRedo: boolean;
+  loadProject: (content: { pages: Page[], config: CanvasConfig }) => void;
 }
 
 export interface WidgetStyle {
